@@ -1,21 +1,23 @@
-import Image from "next/image";
-import localFont from "next/font/local";
 import NavBar from "@/components/NavBar";
 import CustomLinks from "@/components/CustomLinks";
 import MockUp from "@/components/MockUp";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import { useAuth } from "../context/AuthContext"; // Adjust path to your AuthContext
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function Home() {
+const Home = () => {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
+  if (!user) return <div>Loading...</div>;
+
   return (
     <div className={`bg-gray-50 h-[100vh] p-4`}>
       <NavBar />
@@ -25,4 +27,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
