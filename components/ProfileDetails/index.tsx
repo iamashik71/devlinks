@@ -15,7 +15,7 @@ export default function ProfileDetails() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
+    <div className="p-4 bg-white rounded-lg shadow-sm w-[100%] h-[100%]">
       <h1 className="text-3xl font-bold mb-2">Profile Details</h1>
       <p className="text-gray-600 mb-6">
         Add your details to create a personal touch to your profile.
@@ -68,7 +68,7 @@ export default function ProfileDetails() {
         </p>
       </div>
 
-      <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-sm">
+      <div className="p-6 bg-gray-100 rounded-lg shadow-sm">
         <form className="space-y-6">
           <div className="flex items-center">
             <label

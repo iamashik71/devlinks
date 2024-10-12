@@ -4,7 +4,7 @@ const CustomLinks = () => {
   const [isOpen, setOpen] = useState(false);
   return (
     <form
-      className="p-4 bg-white rounded-lg shadow-sm"
+      className="p-4 bg-white rounded-lg shadow-sm w-[100%] h-[100%]"
       //   onSubmit={handleSubmit}
     >
       <h1 className="text-2xl font-semibold text-gray-900 mb-4">

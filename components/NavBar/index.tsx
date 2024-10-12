@@ -1,9 +1,11 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
 const NavBar = () => {
+  const { user, logout } = useAuth();
   const route = useRouter();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -19,16 +21,17 @@ const NavBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLink = () => {
+  const handlePreviewLink = () => {
     return console.log("NavBar");
   };
 
   const handleGoBackToLogin = () => {
-    return console.log("NavBar");
-  };
-
-  const handlePreviewLink = () => {
-    return console.log("NavBar");
+    if (user) {
+      logout();
+      route.push("/login");
+    } else {
+      route.push("/");
+    }
   };
 
   return (
@@ -46,7 +49,11 @@ const NavBar = () => {
         onClick={handleGoBackToLogin}
       />
       <ul className={styles.links}>
-        <li className={styles.link} onClick={handleLink} data-link="links">
+        <li
+          className={styles.link}
+          onClick={() => route.push("/links")}
+          data-link="links"
+        >
           <span></span>
           {!isMobile && "Links"}
         </li>

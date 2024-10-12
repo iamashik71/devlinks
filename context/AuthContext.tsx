@@ -1,47 +1,66 @@
+// import {
+//   createContext,
+//   useContext,
+//   useState,
+//   useEffect,
+//   ReactNode,
+// } from "react";
+// import { auth } from "@/firebase/firebaseClient";
+// import { onAuthStateChanged, signOut } from "firebase/auth";
+
+// const AuthContext = createContext<any>(null);
+// export const useAuth = () => useContext(AuthContext);
+
+// export const AuthProvider = ({ children }: { children: ReactNode }) => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const unsubscribe = onAuthStateChanged(auth, (user) => {
+//       if (user) {
+//         setUser(user);
+//       } else {
+//         setUser(null);
+//       }
+//       setLoading(false);
+//     });
+//     return () => unsubscribe();
+//   }, []);
+
+//   const logout = async () => {
+//     try {
+//       await signOut(auth);
+//       setUser(null);
+//     } catch (error) {
+//       console.error("Error logging out:", error);
+//     }
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, logout, loading }}>
+//       {!loading && children}
+//     </AuthContext.Provider>
+//   );
+// };
+
 import {
   createContext,
-  ReactNode,
-  useEffect,
-  useState,
   useContext,
+  useState,
+  useEffect,
+  ReactNode,
 } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "../firebase/firebaseClient";
-import { useRouter } from "next/router";
+import { auth } from "@/firebase/firebaseClient";
+import { User } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
-interface AuthContextType {
+type AuthContextType = {
   user: User | null;
+  logout: () => Promise<void>;
   loading: boolean;
-  signOut: () => Promise<void>;
-}
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const signOut = async () => {
-    await auth.signOut();
-    router.push("/login");
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, loading, signOut }}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
-};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -49,4 +68,32 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user ? user : null);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, logout, loading }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };

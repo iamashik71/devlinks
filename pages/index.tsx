@@ -1,26 +1,39 @@
-// pages/index.tsx
-import CustomLinks from "@/components/CustomLinks";
-import Layout from "@/components/Layout";
-import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useAuth } from "@/context/AuthContext";
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
+    if (user) {
+      router.push("/links");
     }
   }, [user, router]);
 
-  if (!user) return <div>Loading...</div>;
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
+  if (user) {
+    return <div>Redirecting...</div>;
+  }
 
   return (
-    <Layout>
-      <CustomLinks />
-    </Layout>
+    <div
+      className={`bg-gray-50 h-[100vh] p-4 flex justify-center items-center`}
+    >
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-4">Welcome to the App</h1>
+        <button
+          onClick={handleLogin}
+          className="bg-blue-500 text-white py-2 px-4 rounded"
+        >
+          Sign In
+        </button>
+      </div>
+    </div>
   );
 };
 
