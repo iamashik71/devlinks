@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import NavBar from "@/components/NavBar";
 import MockUp from "@/components/MockUp";
 
