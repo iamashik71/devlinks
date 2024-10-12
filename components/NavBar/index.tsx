@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 const NavBar = () => {
   const { user, logout } = useAuth();
   const route = useRouter();
+  const currentRoute = route.pathname;
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -45,37 +46,31 @@ const NavBar = () => {
         width={isMobile ? 32 : 108}
         height={isMobile ? 32 : 100}
         alt="dev links"
-        // className={styles.logo}
         onClick={handleGoBackToLogin}
       />
       <ul className={styles.links}>
         <li
-          className={styles.link}
+          className={`${styles.link} ${
+            currentRoute === "/links" ? styles.activeLink : ""
+          }`}
           onClick={() => route.push("/links")}
-          data-link="links"
         >
           <span></span>
-          {!isMobile && "Links"}
+          Links
         </li>
 
         <li
-          className={styles.link}
+          className={`${styles.link} ${
+            currentRoute === "/profile" ? styles.activeLink : ""
+          }`}
           onClick={() => route.push("/profile")}
-          data-link="profile"
         >
           <span></span>
-          {!isMobile && "Profile Details"}
+          Profile Details
         </li>
       </ul>
       <button className={styles.previewButton} onClick={handlePreviewLink}>
-        {isMobile ? (
-          <img
-            src={"/icons/icon-preview-header.svg"}
-            // className={styles.eyeIcon}
-          />
-        ) : (
-          "Preview"
-        )}
+        Preview
       </button>
     </nav>
   );
