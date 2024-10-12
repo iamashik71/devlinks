@@ -56,7 +56,7 @@ const NavBar = () => {
           onClick={() => route.push("/links")}
         >
           <span></span>
-          Links
+          {!isMobile && "Links"}
         </li>
 
         <li
@@ -66,11 +66,18 @@ const NavBar = () => {
           onClick={() => route.push("/profile")}
         >
           <span></span>
-          Profile Details
+          {!isMobile && "Profile Details"}
         </li>
       </ul>
       <button className={styles.previewButton} onClick={handlePreviewLink}>
-        Preview
+        {isMobile ? (
+          <img
+            src={"/icons/icon-preview-header.svg"}
+            className={styles.eyeIcon}
+          />
+        ) : (
+          "Preview"
+        )}
       </button>
     </nav>
   );

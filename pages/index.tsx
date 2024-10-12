@@ -25,7 +25,9 @@ const Home = () => {
       className={`bg-gray-50 h-[100vh] p-4 flex justify-center items-center`}
     >
       <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Welcome to the App</h1>
+        <h1 className="text-2xl font-bold mb-4">
+          You are few clicks away from using Devlink app...
+        </h1>
         <button
           onClick={handleLogin}
           className="bg-blue-500 text-white py-2 px-4 rounded"
