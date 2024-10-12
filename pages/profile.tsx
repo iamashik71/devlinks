@@ -1,11 +1,11 @@
-// pages/index.tsx
-import CustomLinks from "@/components/CustomLinks";
+// pages/profile.tsx
+import ProfileDetails from "@/components/ProfileDetails";
 import Layout from "@/components/Layout";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const Home = () => {
+const Profile = () => {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -19,9 +19,9 @@ const Home = () => {
 
   return (
     <Layout>
-      <CustomLinks />
+      <ProfileDetails />
     </Layout>
   );
 };
 
-export default Home;
+export default Profile;

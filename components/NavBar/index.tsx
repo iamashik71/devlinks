@@ -1,8 +1,10 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
+  const route = useRouter();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -49,7 +51,11 @@ const NavBar = () => {
           {!isMobile && "Links"}
         </li>
 
-        <li className={styles.link} onClick={handleLink} data-link="profile">
+        <li
+          className={styles.link}
+          onClick={() => route.push("/profile")}
+          data-link="profile"
+        >
           <span></span>
           {!isMobile && "Profile Details"}
         </li>
