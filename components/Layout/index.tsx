@@ -1,4 +1,3 @@
-// components/Layout.tsx
 import { ReactNode } from "react";
 import NavBar from "@/components/NavBar";
 import MockUp from "@/components/MockUp";

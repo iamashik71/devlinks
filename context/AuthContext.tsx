@@ -9,7 +9,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../firebase/firebaseClient";
 import { useRouter } from "next/router";
 
-// Define the context shape
 interface AuthContextType {
   user: User | null;
   loading: boolean;

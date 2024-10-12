@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebaseClient"; // Import auth from your Firebase setup
+import { auth } from "../firebase/firebaseClient";
 import { useRouter } from "next/router";
 
 const Login = () => {
@@ -11,8 +10,8 @@ const Login = () => {
 
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("User:", result.user); // Successfully signed in
-      router.push("/"); // Redirect to dashboard after login
+      console.log("User:", result.user);
+      router.push("/");
     } catch (error: any) {
       console.error("Error signing in with Google:", error.message);
     }

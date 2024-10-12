@@ -1,4 +1,3 @@
-// pages/profile.tsx
 import ProfileDetails from "@/components/ProfileDetails";
 import Layout from "@/components/Layout";
 import { useAuth } from "../context/AuthContext";
