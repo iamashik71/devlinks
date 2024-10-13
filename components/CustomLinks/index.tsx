@@ -1,7 +1,34 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import CustomLink from "../CusomLink";
+
+interface LinkType {
+  id: number;
+  platform: string;
+  url: string;
+}
 
 const CustomLinks = () => {
   const [isOpen, setOpen] = useState(false);
+  const [links, setLinks] = useState<LinkType[]>([]);
+  const addLinkButton = useRef();
+
+  const addLink = () => {
+    const newLink = {
+      id: links.length + 1,
+      platform: "",
+      url: "",
+    };
+    setLinks([...links, newLink]);
+  };
+  const removeLink = (id: number) => {
+    setLinks(links.filter((link) => link.id !== id));
+  };
+
+  const updateLink = (id: number, field: "platform" | "url", value: string) => {
+    setLinks(
+      links.map((link) => (link.id === id ? { ...link, [field]: value } : link))
+    );
+  };
   return (
     <form
       className="p-4 bg-white rounded-lg shadow-sm w-[100%] h-[100%]"
@@ -19,27 +46,37 @@ const CustomLinks = () => {
         <button
           type="button"
           className="w-full bg-transparent text-[#633CFF] border border-[#633CFF] rounded-lg p-3 hover:bg-[#efebff] mb-4"
-          //   onClick={addLink}
+          onClick={addLink}
           //   ref={addLinkButton}
         >
           + Add new link
         </button>
-
-        <div className="text-center p-4">
-          <img
-            src="/images/illustration-empty.svg"
-            className="mx-auto mb-4"
-            alt="Empty illustration"
+        {links.map((link) => (
+          <CustomLink
+            key={link.id}
+            link={link}
+            onRemove={() => removeLink(link.id)}
+            onChange={updateLink}
           />
-          <h1 className="text-xl font-semibold text-gray-900">
-            Let's get you started
-          </h1>
-          <p className="text-gray-600">
-            Use the “Add new link” button to get started. Once you have more
-            than one link, you can reorder and edit them. We’re here to help you
-            share your profiles with everyone!
-          </p>
-        </div>
+        ))}
+
+        {links.length === 0 && (
+          <div className="text-center p-4">
+            <img
+              src="/images/illustration-empty.svg"
+              className="mx-auto mb-4"
+              alt="Empty illustration"
+            />
+            <h1 className="text-xl font-semibold text-gray-900">
+              Let's get you started
+            </h1>
+            <p className="text-gray-600">
+              Use the “Add new link” button to get started. Once you have more
+              than one link, you can reorder and edit them. We’re here to help
+              you share your profiles with everyone!
+            </p>
+          </div>
+        )}
       </fieldset>
 
       <section className="text-center">
