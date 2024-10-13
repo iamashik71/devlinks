@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebaseClient";
+import { auth } from "../utils/firebaseClient";
 import { useRouter } from "next/router";
 
 const Login = () => {

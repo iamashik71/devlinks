@@ -16,7 +16,15 @@ const MockUp = () => {
           className={styles.phone_mockup}
         />
         <div className={styles.linkBoxes}>
-          <h1>Hey Links</h1>
+          <div className="p-2 bg-black rounded-md">
+            <div className="flex items-center space-x-2 pb-1">
+              <img
+                src="/icons/icon-link-boxes/icon-github-link-box.svg"
+                alt="Platform Icon"
+              />
+              <p className="text-white">Github</p>
+            </div>
+          </div>
         </div>
         {isOpen ? (
           <div className={styles.tooltip}>

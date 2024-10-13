@@ -48,18 +48,8 @@ const CustomLink = ({
       <div className="mb-2">
         <p>Platform</p>
         <div className="relative">
-          {/* <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="w-full px-3 py-2 text-left bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <span>{link.platform || "Select a platform"}</span>
-            <ChevronDown
-              className="absolute right-3 top-1/2 transform -translate-y-1/2"
-              size={20}
-            />
-          </button> */}
           <select
-            value={platform}
+            value={platform} // value will be the id
             onChange={handlePlatformChange}
             className="w-full px-3 py-2 text-left bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           >

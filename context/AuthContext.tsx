@@ -5,7 +5,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { auth } from "@/firebase/firebaseClient";
+import { auth } from "@/utils/firebaseClient";
 import { User } from "firebase/auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
