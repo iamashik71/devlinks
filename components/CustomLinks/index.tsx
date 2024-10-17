@@ -39,7 +39,7 @@ export default function CustomizeLinks() {
 
   const addNewLink = async () => {
     const newLink: Omit<LinkType, "id"> = {
-      platform: "GitHub", // Default to the first platform
+      platform: "GitHub",
       url: "",
     };
     const docRef = await addDoc(collection(db, "links"), newLink);
@@ -94,6 +94,24 @@ export default function CustomizeLinks() {
           onChange={(id, field, value) => updateLink(id, field, value)}
         />
       ))}
+
+      {links.length === 0 && (
+        <div className="text-center p-4">
+          <img
+            src="/images/illustration-empty.svg"
+            className="mx-auto mb-4"
+            alt="Empty illustration"
+          />
+          <h1 className="text-xl font-semibold text-gray-900">
+            Let's get you started
+          </h1>
+          <p className="text-gray-600">
+            Use the “Add new link” button to get started. Once you have more
+            than one link, you can reorder and edit them. We’re here to help you
+            share your profiles with everyone!
+          </p>
+        </div>
+      )}
 
       {links.length > 0 && (
         <div className="mt-6 text-right">
