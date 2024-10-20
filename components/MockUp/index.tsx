@@ -6,12 +6,20 @@ import { collection, getDocs } from "firebase/firestore";
 
 interface LinkType {
   id: string;
-  [key: string]: any; // Adjust based on the structure of your documents
+  [key: string]: any;
 }
 
 const MockUp = () => {
   const [isOpen, setOpen] = useState(false);
   const [links, setLinks] = useState<LinkType[] | null>(null);
+
+  const platformBgColors: Record<string, string> = {
+    GitHub: "bg-gray-800",
+    YouTube: "bg-red-600",
+    LinkedIn: "bg-blue-700",
+    Facebook: "bg-blue-600",
+    Twitter: "bg-blue-400",
+  };
 
   useEffect(() => {
     const getLinks = async () => {
@@ -37,10 +45,15 @@ const MockUp = () => {
           priority
           className={styles.phone_mockup}
         />
-        <div className={styles.linkBoxes}>
-          <div className="p-2 bg-black rounded-md">
+        <div className={`${styles.linkBoxes}`}>
+          <div className="flex flex-col gap-4">
             {links?.map((link, index) => (
-              <div className="flex items-center space-x-2 pb-1" key={index}>
+              <div
+                className={`flex items-center py-3 px-2 gap-2 rounded-md ${
+                  platformBgColors[link.platform] || "bg-black"
+                }`}
+                key={index}
+              >
                 <img
                   src={`/icons/icon-link-boxes/icon-${link.platform}-link-box.svg`}
                   alt="Platform Icon"
@@ -53,7 +66,7 @@ const MockUp = () => {
         {isOpen ? (
           <div className={styles.tooltip}>
             You can Drag and Drop!
-            <button className={styles.okButton} onClick={() => null}>
+            <button className={styles.okButton} onClick={() => setOpen(false)}>
               Got it!
             </button>
             <div className={styles.arrowDown}></div>
