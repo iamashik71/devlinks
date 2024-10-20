@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import db from "../../utils/firestore";
 import { collection, getDocs } from "firebase/firestore";
+import { useLinks } from "@/context/LinkContext";
 
-interface LinkType {
-  id: string;
-  [key: string]: any;
-}
+// interface LinkType {
+//   id: string;
+//   [key: string]: any;
+// }
 
 const MockUp = () => {
   const [isOpen, setOpen] = useState(false);
-  const [links, setLinks] = useState<LinkType[] | null>(null);
+  const { links, setLinks } = useLinks();
 
   const platformBgColors: Record<string, string> = {
     GitHub: "bg-gray-800",

@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import db from "@/utils/firestore"; // Adjust this import based on your Firebase setup
 import CustomLink from "@/components/CusomLink";
+import { useLinks } from "@/context/LinkContext";
 
 type LinkType = {
   id: string;
@@ -17,7 +18,8 @@ type LinkType = {
 };
 
 export default function CustomizeLinks() {
-  const [links, setLinks] = useState<LinkType[]>([]);
+  // const [links, setLinks] = useState<LinkType[]>([]);
+  const { links, setLinks } = useLinks();
 
   useEffect(() => {
     const fetchLinks = async () => {
