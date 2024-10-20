@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   collection,
   addDoc,
@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import db from "@/utils/firestore"; // Adjust this import based on your Firebase setup
 import CustomLink from "@/components/CusomLink";
+import { useLinks } from "@/context/LinkContext";
 
 type LinkType = {
   id: string;
@@ -17,7 +18,7 @@ type LinkType = {
 };
 
 export default function CustomizeLinks() {
-  const [links, setLinks] = useState<LinkType[]>([]);
+  const { links, setLinks } = useLinks();
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -72,7 +73,7 @@ export default function CustomizeLinks() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div className="mx-auto p-6 bg-white rounded-lg shadow w-full h-full">
       <h2 className="text-2xl font-bold mb-4">Customize your links</h2>
       <p className="text-gray-600 mb-6">
         Add/edit/remove links below and then share all your profiles with the
@@ -91,7 +92,7 @@ export default function CustomizeLinks() {
           key={link.id}
           link={link}
           onRemove={() => removeLink(link.id)}
-          onChange={(id, field, value) => updateLink(id, field, value)}
+          onChange={updateLink}
         />
       ))}
 
@@ -103,12 +104,12 @@ export default function CustomizeLinks() {
             alt="Empty illustration"
           />
           <h1 className="text-xl font-semibold text-gray-900">
-            Let's get you started
+            Let&apos;s get you started
           </h1>
           <p className="text-gray-600">
             Use the “Add new link” button to get started. Once you have more
-            than one link, you can reorder and edit them. We’re here to help you
-            share your profiles with everyone!
+            than one link, you can reorder and edit them. We&apos;re here to
+            help you share your profiles with everyone!
           </p>
         </div>
       )}

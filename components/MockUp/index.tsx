@@ -3,22 +3,40 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import db from "../../utils/firestore";
 import { collection, getDocs } from "firebase/firestore";
+import { useLinks } from "@/context/LinkContext";
 
-interface LinkType {
+type LinkType = {
   id: string;
-  [key: string]: any; // Adjust based on the structure of your documents
-}
+  platform: string;
+  url: string;
+};
 
 const MockUp = () => {
   const [isOpen, setOpen] = useState(false);
-  const [links, setLinks] = useState<LinkType[] | null>(null);
+  const { links, setLinks } = useLinks();
+
+  const platformBgColors: Record<string, string> = {
+    GitHub: "bg-gray-800",
+    YouTube: "bg-red-600",
+    LinkedIn: "bg-blue-700",
+    Facebook: "bg-blue-600",
+    Twitter: "bg-blue-400",
+  };
 
   useEffect(() => {
     const getLinks = async () => {
       const querySnapshot = await getDocs(collection(db, "links"));
-      setLinks(
-        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      );
+
+      const fetchedLinks: LinkType[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          platform: data.platform || "",
+          url: data.url || "",
+        };
+      });
+
+      setLinks(fetchedLinks);
     };
 
     getLinks();
@@ -27,7 +45,7 @@ const MockUp = () => {
   console.log("Link from mocup", links);
 
   return (
-    <section className={`${styles.container} shadow-sm`}>
+    <section className={`${styles.container} shadow`}>
       <div className={styles.phone_container}>
         <Image
           src={"/images/illustration-phone-mockup.svg"}
@@ -37,10 +55,15 @@ const MockUp = () => {
           priority
           className={styles.phone_mockup}
         />
-        <div className={styles.linkBoxes}>
-          <div className="p-2 bg-black rounded-md">
+        <div className={`${styles.linkBoxes}`}>
+          <div className="flex flex-col gap-4">
             {links?.map((link, index) => (
-              <div className="flex items-center space-x-2 pb-1" key={index}>
+              <div
+                className={`flex items-center py-3 px-2 gap-2 rounded-md ${
+                  platformBgColors[link.platform] || "bg-black"
+                }`}
+                key={index}
+              >
                 <img
                   src={`/icons/icon-link-boxes/icon-${link.platform}-link-box.svg`}
                   alt="Platform Icon"
@@ -53,7 +76,7 @@ const MockUp = () => {
         {isOpen ? (
           <div className={styles.tooltip}>
             You can Drag and Drop!
-            <button className={styles.okButton} onClick={() => null}>
+            <button className={styles.okButton} onClick={() => setOpen(false)}>
               Got it!
             </button>
             <div className={styles.arrowDown}></div>

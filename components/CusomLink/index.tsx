@@ -7,6 +7,12 @@ type Platform = {
   icon: string;
 };
 
+type LinkType = {
+  id: string;
+  platform: string;
+  url: string;
+};
+
 const platformOptions: Platform[] = [
   {
     id: "github",
@@ -35,16 +41,10 @@ const platformOptions: Platform[] = [
   },
 ];
 
-type LinkType = {
-  id: string;
-  platform: string;
-  url: string;
-};
-
 type CustomLinkProps = {
   link: LinkType;
   onRemove: () => void;
-  onChange: (id: number, field: "platform" | "url", value: string) => void;
+  onChange: (id: string, field: "platform" | "url", value: string) => void;
 };
 
 export default function CustomLink({
