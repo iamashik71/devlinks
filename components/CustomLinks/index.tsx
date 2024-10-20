@@ -72,7 +72,7 @@ export default function CustomizeLinks() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div className="mx-auto p-6 bg-white rounded-lg shadow w-full h-full">
       <h2 className="text-2xl font-bold mb-4">Customize your links</h2>
       <p className="text-gray-600 mb-6">
         Add/edit/remove links below and then share all your profiles with the

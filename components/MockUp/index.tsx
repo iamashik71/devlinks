@@ -35,7 +35,7 @@ const MockUp = () => {
   console.log("Link from mocup", links);
 
   return (
-    <section className={`${styles.container} shadow-sm`}>
+    <section className={`${styles.container} shadow`}>
       <div className={styles.phone_container}>
         <Image
           src={"/images/illustration-phone-mockup.svg"}
