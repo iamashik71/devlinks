@@ -5,10 +5,11 @@ import db from "../../utils/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import { useLinks } from "@/context/LinkContext";
 
-// interface LinkType {
-//   id: string;
-//   [key: string]: any;
-// }
+type LinkType = {
+  id: string;
+  platform: string;
+  url: string;
+};
 
 const MockUp = () => {
   const [isOpen, setOpen] = useState(false);
@@ -25,9 +26,17 @@ const MockUp = () => {
   useEffect(() => {
     const getLinks = async () => {
       const querySnapshot = await getDocs(collection(db, "links"));
-      setLinks(
-        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      );
+
+      const fetchedLinks: LinkType[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          platform: data.platform || "",
+          url: data.url || "",
+        };
+      });
+
+      setLinks(fetchedLinks);
     };
 
     getLinks();

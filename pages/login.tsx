@@ -12,8 +12,8 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       console.log("User:", result.user);
       router.push("/");
-    } catch (error: any) {
-      console.error("Error signing in with Google:", error.message);
+    } catch (e) {
+      console.error("Error signing in with Google:", e);
     }
   };
 

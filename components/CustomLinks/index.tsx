@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   collection,
   addDoc,
@@ -18,7 +18,6 @@ type LinkType = {
 };
 
 export default function CustomizeLinks() {
-  // const [links, setLinks] = useState<LinkType[]>([]);
   const { links, setLinks } = useLinks();
 
   useEffect(() => {
@@ -93,7 +92,7 @@ export default function CustomizeLinks() {
           key={link.id}
           link={link}
           onRemove={() => removeLink(link.id)}
-          onChange={(id, field, value) => updateLink(id, field, value)}
+          onChange={updateLink}
         />
       ))}
 
@@ -105,12 +104,12 @@ export default function CustomizeLinks() {
             alt="Empty illustration"
           />
           <h1 className="text-xl font-semibold text-gray-900">
-            Let's get you started
+            Let&apos;s get you started
           </h1>
           <p className="text-gray-600">
             Use the “Add new link” button to get started. Once you have more
-            than one link, you can reorder and edit them. We’re here to help you
-            share your profiles with everyone!
+            than one link, you can reorder and edit them. We&apos;re here to
+            help you share your profiles with everyone!
           </p>
         </div>
       )}
