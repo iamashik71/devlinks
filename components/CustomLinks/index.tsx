@@ -1,30 +1,101 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
+import db from "@/utils/firestore"; // Adjust this import based on your Firebase setup
+import CustomLink from "@/components/CusomLink";
 
-const CustomLinks = () => {
-  const [isOpen, setOpen] = useState(false);
+type LinkType = {
+  id: string;
+  platform: string;
+  url: string;
+};
+
+export default function CustomizeLinks() {
+  const [links, setLinks] = useState<LinkType[]>([]);
+
+  useEffect(() => {
+    const fetchLinks = async () => {
+      const querySnapshot = await getDocs(collection(db, "links"));
+      const fetchedLinks = querySnapshot.docs.map(
+        (doc) =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as LinkType)
+      );
+      setLinks(fetchedLinks);
+    };
+
+    fetchLinks();
+  }, []);
+
+  console.log("all links fetched", links);
+
+  const addNewLink = async () => {
+    const newLink: Omit<LinkType, "id"> = {
+      platform: "GitHub",
+      url: "",
+    };
+    const docRef = await addDoc(collection(db, "links"), newLink);
+    setLinks([...links, { ...newLink, id: docRef.id }]);
+  };
+
+  const removeLink = async (id: string) => {
+    await deleteDoc(doc(db, "links", id));
+    setLinks(links.filter((link) => link.id !== id));
+  };
+
+  const updateLink = async (
+    id: string,
+    field: "platform" | "url",
+    value: string
+  ) => {
+    const linkRef = doc(db, "links", id);
+    await updateDoc(linkRef, { [field]: value });
+    setLinks(
+      links.map((link) => (link.id === id ? { ...link, [field]: value } : link))
+    );
+  };
+
+  const saveAllLinks = async () => {
+    for (const link of links) {
+      const linkRef = doc(db, "links", link.id);
+      await updateDoc(linkRef, { platform: link.platform, url: link.url });
+    }
+    alert("All links saved successfully!");
+  };
+
   return (
-    <form
-      className="p-4 bg-white rounded-lg shadow-sm"
-      //   onSubmit={handleSubmit}
-    >
-      <h1 className="text-2xl font-semibold text-gray-900 mb-4">
-        Customize your links
-      </h1>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+      <h2 className="text-2xl font-bold mb-4">Customize your links</h2>
       <p className="text-gray-600 mb-6">
         Add/edit/remove links below and then share all your profiles with the
-        world.
+        world!
       </p>
 
-      <fieldset className="mb-6">
-        <button
-          type="button"
-          className="w-full bg-transparent text-[#633CFF] border border-[#633CFF] rounded-lg p-3 hover:bg-[#efebff] mb-4"
-          //   onClick={addLink}
-          //   ref={addLinkButton}
-        >
-          + Add new link
-        </button>
+      <button
+        onClick={addNewLink}
+        className="w-full mb-4 px-4 py-2 bg-white text-indigo-600 font-medium border border-indigo-600 rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        + Add new link
+      </button>
 
+      {links.map((link) => (
+        <CustomLink
+          key={link.id}
+          link={link}
+          onRemove={() => removeLink(link.id)}
+          onChange={(id, field, value) => updateLink(id, field, value)}
+        />
+      ))}
+
+      {links.length === 0 && (
         <div className="text-center p-4">
           <img
             src="/images/illustration-empty.svg"
@@ -40,28 +111,19 @@ const CustomLinks = () => {
             share your profiles with everyone!
           </p>
         </div>
-      </fieldset>
+      )}
 
-      <section className="text-center">
-        <button className="w-full bg-[#633CFF] text-white rounded-lg p-3 hover:bg-[#4f32d6] flex justify-center items-center">
-          Save
-        </button>
-      </section>
-
-      {isOpen && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md rounded-t-lg">
-          You can Drag and Drop!
+      {links.length > 0 && (
+        <div className="mt-6 text-right">
           <button
-            className="ml-4 text-[#633CFF] font-semibold"
-            // onClick={handleClosePopup}
+            type="button"
+            onClick={saveAllLinks}
+            className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Got it!
+            Save
           </button>
-          <div className="w-4 h-4 bg-white transform rotate-45 absolute bottom-[-10px] left-1/2 translate-x-[-50%]"></div>
         </div>
       )}
-    </form>
+    </div>
   );
-};
-
-export default CustomLinks;
+}

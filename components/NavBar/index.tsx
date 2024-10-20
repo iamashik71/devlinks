@@ -1,8 +1,13 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
+  const { user, logout } = useAuth();
+  const route = useRouter();
+  const currentRoute = route.pathname;
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -17,16 +22,17 @@ const NavBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLink = () => {
+  const handlePreviewLink = () => {
     return console.log("NavBar");
   };
 
   const handleGoBackToLogin = () => {
-    return console.log("NavBar");
-  };
-
-  const handlePreviewLink = () => {
-    return console.log("NavBar");
+    if (user) {
+      logout();
+      route.push("/login");
+    } else {
+      route.push("/");
+    }
   };
 
   return (
@@ -40,16 +46,25 @@ const NavBar = () => {
         width={isMobile ? 32 : 108}
         height={isMobile ? 32 : 100}
         alt="dev links"
-        // className={styles.logo}
         onClick={handleGoBackToLogin}
       />
       <ul className={styles.links}>
-        <li className={styles.link} onClick={handleLink} data-link="links">
+        <li
+          className={`${styles.link} ${
+            currentRoute === "/links" ? styles.activeLink : ""
+          }`}
+          onClick={() => route.push("/links")}
+        >
           <span></span>
           {!isMobile && "Links"}
         </li>
 
-        <li className={styles.link} onClick={handleLink} data-link="profile">
+        <li
+          className={`${styles.link} ${
+            currentRoute === "/profile" ? styles.activeLink : ""
+          }`}
+          onClick={() => route.push("/profile")}
+        >
           <span></span>
           {!isMobile && "Profile Details"}
         </li>
@@ -58,7 +73,7 @@ const NavBar = () => {
         {isMobile ? (
           <img
             src={"/icons/icon-preview-header.svg"}
-            // className={styles.eyeIcon}
+            className={styles.eyeIcon}
           />
         ) : (
           "Preview"

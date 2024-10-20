@@ -20,6 +20,10 @@
   gap: 8px;
 }
 
+.activeLink {
+  background-color: #efebff;
+}
+
 .link:hover {
   background-color: #efebff;
 }
@@ -42,8 +46,8 @@
 }
 
 .link:nth-of-type(1) span {
-  mask-image: url("../../public/icons/icon-links-header.svg");
-  -webkit-mask-image: url("../../public/icons/icon-links-header.svg");
+  mask-image: url("/icons/icon-links-header.svg");
+  -webkit-mask-image: url("/icons/icon-links-header.svg");
 }
 
 .link:nth-of-type(2) {
@@ -51,8 +55,8 @@
 }
 
 .link:nth-of-type(2) span {
-  mask-image: url("../../public/icons/icon-profile-details-header.svg");
-  -webkit-mask-image: url("../../public/icons/icon-profile-details-header.svg");
+  mask-image: url("/icons/icon-profile-details-header.svg");
+  -webkit-mask-image: url("/icons/icon-profile-details-header.svg");
 }
 
 .previewButton {
@@ -75,11 +79,6 @@
 
 .previewButton:hover {
   background-color: #efebff;
-}
-
-.eyeIcon {
-  width: 20px;
-  object-fit: contain;
 }
 
 @media (max-width: 900px) {
